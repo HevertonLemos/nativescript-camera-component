@@ -1,4 +1,4 @@
-name: Setup-nativescript
+name: Setup-NativeScript
 
 # Run this workflow every time a new commit pushed to your repository
 on: push
@@ -6,7 +6,7 @@ on: push
 jobs:
   # Set the job key. The key is displayed as the job name
   # when a job name is not provided
-  setup-NativeScript:
+  setup-nativescript:
     # Name the Job
     name: Setup-NativeScript
     # Set the type of machine to run on
