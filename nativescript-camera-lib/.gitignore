@@ -6,6 +6,7 @@ platforms/
 # NativeScript Template
 *.js.map
 *.js
+!ngcc.config.js
 !webpack.config.js
 
 # Logs
@@ -26,7 +27,7 @@ tmp/
 typings/
 
 # Visual Studio Code
-.vscode
+.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
