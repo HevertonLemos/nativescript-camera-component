@@ -1,5 +1,5 @@
 # cameralib-nativescript
 
-## Dependencie
-npm i --save @nativescript/camera
+## Dependence
+```npm i --save @nativescript/camera```
 
