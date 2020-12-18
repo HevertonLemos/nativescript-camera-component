@@ -7,6 +7,7 @@ import { ItemsComponent } from "./item/items.component";
 import { ItemDetailComponent } from "./item/item-detail.component";
 
 import { CameraComponent } from "./camera/camera.component";
+import { NativeScriptFormsModule } from "@nativescript/angular"
 
 @NgModule({
     bootstrap: [
@@ -14,7 +15,8 @@ import { CameraComponent } from "./camera/camera.component";
     ],
     imports: [
         NativeScriptModule,
-        AppRoutingModule
+        AppRoutingModule,
+        NativeScriptFormsModule
     ],
     declarations: [
         AppComponent,
