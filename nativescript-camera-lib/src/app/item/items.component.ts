@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { CameraOptions } from "@nativescript/camera";
 
 
 @Component({
@@ -7,6 +8,11 @@ import { Component, OnInit } from "@angular/core";
 })
 export class ItemsComponent implements OnInit {
     imageName: string = 'teste';
+    cameraOptions: CameraOptions = {
+        width: 300, height: 300, keepAspectRatio: true,
+        saveToGallery: false, allowsEditing: false,
+        cameraFacing: 'rear'
+    };
 
     constructor() { }
 

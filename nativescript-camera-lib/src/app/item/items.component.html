@@ -25,10 +25,10 @@ You can learn more about the NativeScript core theme at https://github.com/nativ
 -->
 <GridLayout>
     <StackLayout>
-        <Label text="Lib test"></Label>
+        <Label text="Name image"></Label>
         <TextField [(ngModel)]='imageName' (returnPress)="onReturnPress($event)"></TextField>
 
         <fbit-camera [pictureWidth]="500" [pictureName]="imageName"
-        [pictureFolder]="'pastaX'"></fbit-camera>
+        [pictureFolder]="'pastaX'" [pictureOptions]="cameraOptions"></fbit-camera>
     </StackLayout>
 </GridLayout>

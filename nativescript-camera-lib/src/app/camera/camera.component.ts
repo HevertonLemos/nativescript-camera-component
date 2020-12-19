@@ -19,15 +19,9 @@ export class CameraComponent implements OnInit {
     public camera: Camera = new Camera();
     public source = new ImageSource();
 
-    @Input() public pictureWidth: number = 300;
-    @Input() public pictureHeight: number = 300;
-    @Input() public pictureKeepAspectRatio: boolean = true;
-    @Input() public pictureSaveToGallery: boolean = false;
-    @Input() public pictureAllowsEditing: boolean = false;
-    @Input() public pictureCameraFacing: any = 'rear';
-
     @Input() public pictureName: string = 'name';
     @Input() public pictureFolder: string;
+    @Input() public pictureOptions: CameraOptions;
 
     constructor() {
     }
@@ -36,23 +30,22 @@ export class CameraComponent implements OnInit {
         this._requestCameraPermissions();
 
         this.camera.cameraOption = {
-            width: this.pictureWidth, height: this.pictureHeight, keepAspectRatio: this.pictureKeepAspectRatio,
-            saveToGallery: this.pictureSaveToGallery, allowsEditing: this.pictureAllowsEditing,
-            cameraFacing: this.pictureCameraFacing
+            width: 300, height: 300, keepAspectRatio: true, 
+            saveToGallery: false, allowsEditing: false,
+            cameraFacing: 'rear'
         };
-        this.camera.imageFolder = this.pictureFolder;
-        this.camera.imageName = this.pictureName;
-        console.log("width -> " + this.camera.cameraOption.width)
-        console.log("name -> " + this.camera.imageName)
     }
 
     public _takePicture() {
+        
         takePicture(this.camera.cameraOption).
         then((imageAsset) => {
             console.log("Result is an image asset instance");
             this.camera.image = imageAsset;
+            this.camera.imageFolder = this.pictureFolder;
+            this.camera.imageName = this.pictureName;
 
-            this.savePicture(this.camera.image, this.camera.imageName, this.camera.imageFolder);
+            this.savePicture(this.camera.image, this.pictureName, this.pictureFolder);
 
             console.log(this.camera.image);
             
@@ -114,12 +107,7 @@ export class CameraComponent implements OnInit {
     public savePicture(cameraImage: ImageAsset, imageName: string, folderName: string) {
         this.source.fromAsset(cameraImage)
             .then((imageSource: ImageSource) => {
-                const folderPath: string = path.join(knownFolders.documents().path, folderName);
-                //const folder: Folder = <Folder>Folder.fromPath(folderPath);
-
-                // let documents = knownFolders.documents();
-                // const folder = documents.getFolder(folderName);
-                // const folderPath: string = path.join(folder.path); 
+                const folderPath: string = path.join(knownFolders.documents().path, folderName); 
                 const filePath = path.join(folderPath, imageName + '.png');
                 console.log("file path -> " + filePath);
 
@@ -138,10 +126,10 @@ export class CameraComponent implements OnInit {
 
     getAllImage() {
         const folder: Folder = <Folder> knownFolders.documents();
-        const folder1 = folder.getFolder(this.camera.imageFolder);
+        const folder1 = folder.getFolder(this.pictureFolder);
         folder1.getEntities().then((itens :Array<FileSystemEntity>) => {
             for (let index = 0; index < itens.length; index++) {
-                const folderPath: string = path.join(folder.path, this.camera.imageFolder+ "/" + itens[index].name);
+                const folderPath: string = path.join(folder.path, this.pictureFolder+ "/" + itens[index].name);
                 console.log("folder -> " + folderPath);
                 const imageFromLocalFile: ImageSource = <ImageSource> ImageSource.fromFileSync(folderPath);
                 console.log("image -> " + imageFromLocalFile.android);
