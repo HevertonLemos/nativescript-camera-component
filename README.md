@@ -2,7 +2,7 @@
 
 ## Dependence
 * [nativescript-camera](https://market.nativescript.org/plugins/nativescript-camera/)
-```npm i --save @nativescript/camera```
+  * ```npm i --save @nativescript/camera```
 
 ## Parameters Inputs
 |Parameter | Type | Description | Notes
