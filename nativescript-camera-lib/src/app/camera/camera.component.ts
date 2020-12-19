@@ -3,7 +3,7 @@ import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core
 import { takePicture, requestPermissions, isAvailable, CameraOptions } from '@nativescript/camera';
 import { FileSystemEntity, Folder, knownFolders, path } from '@nativescript/core/file-system';
 import { ImageAsset } from '@nativescript/core/image-asset';
-import { fromFile, ImageSource } from "@nativescript/core/image-source";
+import { ImageSource } from "@nativescript/core/image-source";
 
 import { Camera, Image64 } from "./camera";
 
@@ -19,7 +19,7 @@ export class CameraComponent implements OnInit {
     public camera: Camera = new Camera();
     public source = new ImageSource();
 
-    @Input() public pictureWidth: number;
+    @Input() public pictureWidth: number = 300;
     @Input() public pictureHeight: number = 300;
     @Input() public pictureKeepAspectRatio: boolean = true;
     @Input() public pictureSaveToGallery: boolean = false;
