@@ -1,4 +1,4 @@
-# cameralib-nativescript
+# camera-component-nativescript
 
 ## Dependence
 * [nativescript-camera](https://market.nativescript.org/plugins/nativescript-camera/)
