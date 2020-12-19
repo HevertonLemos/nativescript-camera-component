@@ -11,7 +11,7 @@ pictureName | string | Define the picture to internal system | Default= 'name'
 pictureFolder | string | Define the folder name to save in internal system | Default= '' 
 pictureOptions | CameraOptions | Define the optional parameter for setting different camera options| nativescript-camera interface. 
 
-### CameraOpitions
+### CameraOpitions ( by [nativescript-camera](https://market.nativescript.org/plugins/nativescript-camera/) )
 |Parameter | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 pictureWidth | number | Defines the desired width (in device independent pixels) of the taken image. It should be used with height property. If keepAspectRatio actual image width could be different in order to keep the aspect ratio of the original camera image. The actual image width will be greater than requested if the display density of the device is higher (than 1) (full HD+ resolutions). | Default= 300 
