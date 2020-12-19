@@ -1,44 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
 
 import { takePicture, requestPermissions, isAvailable, CameraOptions } from '@nativescript/camera';
+import { FileSystemEntity, Folder, knownFolders, path } from '@nativescript/core/file-system';
 import { ImageAsset } from '@nativescript/core/image-asset';
 import { ImageSource } from "@nativescript/core/image-source";
-//import { Folder, path, File, knownFolders } from "@nativescript/core/file-system";
 
-import { Image64 } from "./camera";
+import { Camera, Image64 } from "./camera";
 
 @Component({
-    selector: 'ns-camera',
+    selector: 'fbit-camera',
     templateUrl: 'camera.component.html',
-    styleUrls: ['camera.component.css']
+    styleUrls: ['camera.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
     
 })
 
 export class CameraComponent implements OnInit {
-    public saveToGallery: boolean = false;
-    //private count = 1;
-    //private folder: Folder = Folder.fromPath(path.join(knownFolders.documents().path, "Archived_Images"));
-    public cameraImage: ImageAsset;
-    public cameraOption: CameraOptions;
+    public camera: Camera = new Camera();
+    public source = new ImageSource();
 
-    constructor() { 
-        this.cameraOption = {
-            width: 300, height: 300, keepAspectRatio: true,
-            saveToGallery: this.saveToGallery, allowsEditing: false, cameraFacing: 'rear'
-        };
+    @Input() public pictureName: string = 'name';
+    @Input() public pictureFolder: string;
+    @Input() public pictureOptions: CameraOptions;
+
+    constructor() {
     }
 
     ngOnInit() {
         this._requestCameraPermissions();
+
+        this.camera.cameraOption = {
+            width: 300, height: 300, keepAspectRatio: true, 
+            saveToGallery: false, allowsEditing: false,
+            cameraFacing: 'rear'
+        };
     }
 
     public _takePicture() {
-        takePicture(this.cameraOption).
+        
+        takePicture(this.camera.cameraOption).
         then((imageAsset) => {
             console.log("Result is an image asset instance");
-            this.cameraImage = imageAsset;
+            this.camera.image = imageAsset;
+            this.camera.imageFolder = this.pictureFolder;
+            this.camera.imageName = this.pictureName;
 
-            console.log(this.cameraImage);
+            this.savePicture(this.camera.image, this.pictureName, this.pictureFolder);
+
+            console.log(this.camera.image);
             
         }).catch((err) => {
             console.log("Error -> " + err.message);
@@ -82,7 +91,7 @@ export class CameraComponent implements OnInit {
     }
 
     public _takePicture64() {
-        takePicture(this.cameraOption).
+        takePicture(this.camera.cameraOption).
         then((imageAsset) => {
             console.log("Result is an image asset instance");
             //this.cameraImage = this._64format(imageAsset);
@@ -95,5 +104,39 @@ export class CameraComponent implements OnInit {
     }
 
 
+    public savePicture(cameraImage: ImageAsset, imageName: string, folderName: string) {
+        this.source.fromAsset(cameraImage)
+            .then((imageSource: ImageSource) => {
+                const folderPath: string = path.join(knownFolders.documents().path, folderName); 
+                const filePath = path.join(folderPath, imageName + '.png');
+                console.log("file path -> " + filePath);
+
+                const saved: boolean = imageSource.saveToFile(filePath, "png");
+                if (saved) {
+                    console.log("Image saved successfully!");
+                    
+                }
+            })
+            .catch((e) => {
+                console.log("Error: ");
+                console.log(e);
+            });
+        console.log("source -> " + this.source);
+    }
+
+    getAllImage() {
+        const folder: Folder = <Folder> knownFolders.documents();
+        const folder1 = folder.getFolder(this.pictureFolder);
+        folder1.getEntities().then((itens :Array<FileSystemEntity>) => {
+            for (let index = 0; index < itens.length; index++) {
+                const folderPath: string = path.join(folder.path, this.pictureFolder+ "/" + itens[index].name);
+                console.log("folder -> " + folderPath);
+                const imageFromLocalFile: ImageSource = <ImageSource> ImageSource.fromFileSync(folderPath);
+                console.log("image -> " + imageFromLocalFile.android);
+                
+            }
+
+        });
+    }
 
 }

@@ -1,12 +1,11 @@
-<ActionBar title="Camera component">
-</ActionBar>
-
 <GridLayout>
     <StackLayout>
-        <Label text="heverton"></Label>
+        <!-- <Label text="Lib test"></Label>
+        <TextField [(ngModel)]='pictureName'></TextField> -->
         <Label class="button" (tap)="_takePicture()" text="Open camera"></Label>
         <Label class="button" (tap)="_takePicture64()" text="Open camera base 64"></Label>
-    <!-- <button class="button" (tap)="_takePicture()"> Open camera</button> -->
+
+        <Label class="button" (tap)="getAllImage()" text="Get image"></Label>
     </StackLayout>
 </GridLayout>
 
