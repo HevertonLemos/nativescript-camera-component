@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
 
 import { takePicture, requestPermissions, isAvailable, CameraOptions } from '@nativescript/camera';
 import { FileSystemEntity, Folder, knownFolders, path } from '@nativescript/core/file-system';
@@ -10,28 +10,40 @@ import { Camera, Image64 } from "./camera";
 @Component({
     selector: 'fbit-camera',
     templateUrl: 'camera.component.html',
-    styleUrls: ['camera.component.css']
+    styleUrls: ['camera.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
     
 })
 
 export class CameraComponent implements OnInit {
-    public saveToGallery: boolean = false;
-
     public camera: Camera = new Camera();
     public source = new ImageSource();
 
+    @Input() public pictureWidth: number;
+    @Input() public pictureHeight: number = 300;
+    @Input() public pictureKeepAspectRatio: boolean = true;
+    @Input() public pictureSaveToGallery: boolean = false;
+    @Input() public pictureAllowsEditing: boolean = false;
+    @Input() public pictureCameraFacing: any = 'rear';
+
+    @Input() public pictureName: string = 'name';
+    @Input() public pictureFolder: string;
+
     constructor() {
-        this.camera.cameraOption = {
-            width: 300, height: 300, keepAspectRatio: true,
-            saveToGallery: this.saveToGallery, allowsEditing: false,
-            cameraFacing: 'rear'
-        };
-        this.camera.imageFolder = 'pastaX';
-        this.camera.imageName = 'pic';
     }
 
     ngOnInit() {
         this._requestCameraPermissions();
+
+        this.camera.cameraOption = {
+            width: this.pictureWidth, height: this.pictureHeight, keepAspectRatio: this.pictureKeepAspectRatio,
+            saveToGallery: this.pictureSaveToGallery, allowsEditing: this.pictureAllowsEditing,
+            cameraFacing: this.pictureCameraFacing
+        };
+        this.camera.imageFolder = this.pictureFolder;
+        this.camera.imageName = this.pictureName;
+        console.log("width -> " + this.camera.cameraOption.width)
+        console.log("name -> " + this.camera.imageName)
     }
 
     public _takePicture() {
@@ -137,10 +149,6 @@ export class CameraComponent implements OnInit {
             }
 
         });
-    }
-
-    onReturnPress(event: Event) {
-        console.log("event -> " + this.camera.imageName)
     }
 
 }
