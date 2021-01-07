@@ -29,6 +29,7 @@ You can learn more about the NativeScript core theme at https://github.com/nativ
         <TextField [(ngModel)]='imageName' (returnPress)="onReturnPress($event)"></TextField>
 
         <fbit-camera [pictureName]="imageName" [pictureFolder]="'pastaX'"
-        [pictureOptions]="cameraOptions" [iconColor]="'#3bdb13'"></fbit-camera>
+        [pictureOptions]="cameraOptions" [buttonColor]="'#3bdb13'" [buttonSize]="'50'"
+        [buttonMargin]="'50'"></fbit-camera>
     </StackLayout>
 </GridLayout>

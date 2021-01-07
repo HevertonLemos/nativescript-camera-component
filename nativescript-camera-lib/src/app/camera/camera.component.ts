@@ -22,7 +22,10 @@ export class CameraComponent implements OnInit {
     @Input() public pictureName: string = 'name';
     @Input() public pictureFolder: string;
     @Input() public pictureOptions: CameraOptions;
-    @Input() public iconColor: string;
+    @Input() public buttonColor: string = "#000000"
+    @Input() public buttonSize: string = "32"
+    @Input() public buttonMargin: string = "10"
+    
 
     
 
@@ -37,6 +40,7 @@ export class CameraComponent implements OnInit {
             saveToGallery: false, allowsEditing: false,
             cameraFacing: 'rear'
         };
+        
     }
 
     public _takePicture() {
