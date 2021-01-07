@@ -22,9 +22,12 @@ export class CameraComponent implements OnInit {
     @Input() public pictureName: string = 'name';
     @Input() public pictureFolder: string;
     @Input() public pictureOptions: CameraOptions;
+    @Input() public iconColor: string;
 
-    constructor() {
-    }
+    
+
+    constructor() {}
+
 
     ngOnInit() {
         this._requestCameraPermissions();
@@ -45,7 +48,7 @@ export class CameraComponent implements OnInit {
             this.camera.imageFolder = this.pictureFolder;
             this.camera.imageName = this.pictureName;
 
-            this.savePicture(this.camera.image, this.pictureName, this.pictureFolder);
+            this.savePicture(imageAsset, this.pictureName, this.pictureFolder);
 
             console.log(this.camera.image);
             
@@ -70,10 +73,11 @@ export class CameraComponent implements OnInit {
     }
 
     private _64format(picture: ImageAsset) {
-        //let base64 = picture.toBase64String("png", 70);
         let base64: any;
         ImageSource.fromAsset(picture).then(image => { 
-            base64 = image.toBase64String('png', 70); console.log(base64); })
+            base64 = image.toBase64String('png', 70);
+            console.log(base64);
+        })
         let database: Image64;
         database = {
             "type": "image",
@@ -124,6 +128,7 @@ export class CameraComponent implements OnInit {
         console.log("source -> " + this.source);
     }
 
+
     getAllImage() {
         const folder: Folder = <Folder> knownFolders.documents();
         const folder1 = folder.getFolder(this.pictureFolder);
@@ -137,6 +142,12 @@ export class CameraComponent implements OnInit {
             }
 
         });
+    }
+
+
+    public menuEvent(){
+        console.log("apertou");
+
     }
 
 }
