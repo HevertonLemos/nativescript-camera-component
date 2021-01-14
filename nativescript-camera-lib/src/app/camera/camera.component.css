@@ -1,7 +1,14 @@
-.button {
-    background-color: #dddddd;
-    color: #000000;
-    border-style: solid;
-    border-color: #000000;
-    border-width: 5;
+.menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: inline-flex;
+    padding: 1;
 }
+
+.fas-icon {
+    font-family: "Font Awesome 5 Free", "fa-solid-900";
+    font-weight: 900;
+    align-items: center;
+}
+
