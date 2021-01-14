@@ -33,7 +33,7 @@ export class CameraComponent implements OnInit {
 
 
     ngOnInit() {
-        this._requestCameraPermissions();
+        this.requestCameraPermissions();
 
         this.camera.cameraOption = {
             width: 300, height: 300, keepAspectRatio: true, 
@@ -43,8 +43,11 @@ export class CameraComponent implements OnInit {
         
     }
 
-    public _takePicture() {
-        
+
+    /**
+     * Take a picture function.
+     */
+    public cameraTakePicture() {
         takePicture(this.camera.cameraOption).
         then((imageAsset) => {
             console.log("Result is an image asset instance");
@@ -61,7 +64,11 @@ export class CameraComponent implements OnInit {
         });
     }
     
-    private _requestCameraPermissions() {
+
+    /**
+     * Request camera permission to celphone user.
+     */
+    private requestCameraPermissions() {
         if (isAvailable()) {
             requestPermissions()
             .then(
@@ -76,11 +83,17 @@ export class CameraComponent implements OnInit {
         }
     }
 
-    private _64format(picture: ImageAsset) {
+
+    /**
+     * Transform picture in base64 
+     * @param picture image to generate to conversion
+     * @param extension ex: png, jpeg...
+     * @param qualityImage 1 to 100, represent imagem quality
+     */
+    private generate64format(picture: ImageAsset, extension: any, qualityImage: number) {
         let base64: any;
         ImageSource.fromAsset(picture).then(image => { 
-            base64 = image.toBase64String('png', 70);
-            console.log(base64);
+            base64 = image.toBase64String(extension, qualityImage);
         })
         let database: Image64;
         database = {
@@ -88,23 +101,20 @@ export class CameraComponent implements OnInit {
             "image": base64,
             "timestamp": (new Date()).getTime()
         };
-        // let database: any;
-        // database.createDocument({
-        //     "type": "image",
-        //     "image": base64,
-        //     "timestamp": (new Date()).getTime()
-        // });
 
         return database;
     }
 
-    public _takePicture64() {
+
+    /**
+     * Take a picture function and transform in base64.
+     */
+    public cameraTakePicture64() {
         takePicture(this.camera.cameraOption).
         then((imageAsset) => {
             console.log("Result is an image asset instance");
-            //this.cameraImage = this._64format(imageAsset);
 
-            console.log(this._64format(imageAsset));
+            console.log(this.generate64format(imageAsset, 'png', 70));
 
         }).catch((err) => {
             console.log("Error -> " + err.message);
@@ -112,6 +122,12 @@ export class CameraComponent implements OnInit {
     }
 
 
+    /**
+     * 
+     * @param cameraImage Image captured by camera
+     * @param imageName image name
+     * @param folderName folder name to save the image
+     */
     public savePicture(cameraImage: ImageAsset, imageName: string, folderName: string) {
         this.source.fromAsset(cameraImage)
             .then((imageSource: ImageSource) => {
@@ -133,7 +149,11 @@ export class CameraComponent implements OnInit {
     }
 
 
-    getAllImage() {
+    /**
+     * Return the list of all images in specific folder.
+     * need improvements
+     */
+    public getAllImage() {
         const folder: Folder = <Folder> knownFolders.documents();
         const folder1 = folder.getFolder(this.pictureFolder);
         folder1.getEntities().then((itens :Array<FileSystemEntity>) => {
@@ -141,17 +161,9 @@ export class CameraComponent implements OnInit {
                 const folderPath: string = path.join(folder.path, this.pictureFolder+ "/" + itens[index].name);
                 console.log("folder -> " + folderPath);
                 const imageFromLocalFile: ImageSource = <ImageSource> ImageSource.fromFileSync(folderPath);
-                console.log("image -> " + imageFromLocalFile.android);
-                
+                console.log("image -> " + imageFromLocalFile.android);             
             }
-
         });
-    }
-
-
-    public menuEvent(){
-        console.log("apertou");
-
     }
 
 }
