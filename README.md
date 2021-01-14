@@ -4,7 +4,7 @@
 * [nativescript-camera](https://market.nativescript.org/plugins/nativescript-camera/)
   * ```npm i --save @nativescript/camera```
 * Copy the fonts folder to src folder and put fonts in this folder.
-  * [Fonts documentation link](https://use.fontawesome.com/releases/v5.15.1/fontawesome-free-5.15.1-web.zip
+  * [Fonts documentation link](https://use.fontawesome.com/releases/v5.15.1/fontawesome-free-5.15.1-web.zip)
   * [Icons Link](https://fontawesome.com/icons?d=gallery&s=solid)
 
 ## Parameters Inputs
