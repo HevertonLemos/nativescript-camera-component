@@ -1,4 +1,5 @@
 # camera-component-nativescript
+:warning: Testing nativescript techonolog :warning:
 
 ## Dependence
 * [nativescript-camera](https://market.nativescript.org/plugins/nativescript-camera/)
